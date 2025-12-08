@@ -1,0 +1,16 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+}
+
+/* Improve readability */
+body {
+  line-height: 1.7;
+  letter-spacing: 0.2px;
+}
+
+/* Headings */
+h1, h2, h3 {
+  font-family: system-ui, sans-serif;
+  font-weight: 700;
+}

@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@theme {
+  /* Ocean Blue */
+  --color-ocean-blue-50: #e5f9ff;
+  --color-ocean-blue-100: #ccf2ff;
+  --color-ocean-blue-200: #99e6ff;
+  --color-ocean-blue-300: #66d9ff;
+  --color-ocean-blue-400: #33ccff;
+  --color-ocean-blue-500: #00bfff;
+  --color-ocean-blue-600: #0099cc;
+  --color-ocean-blue-700: #007399;
+  --color-ocean-blue-800: #004d66;
+  --color-ocean-blue-900: #002633;
+  --color-ocean-blue-950: #001b24;
+
+  /* Deep Space Blue */
+  --color-deep-space-blue-50: #e6f8fe;
+  --color-deep-space-blue-100: #cef1fd;
+  --color-deep-space-blue-200: #9ce2fc;
+  --color-deep-space-blue-300: #6bd4fa;
+  --color-deep-space-blue-400: #39c6f9;
+  --color-deep-space-blue-500: #08b7f7;
+  --color-deep-space-blue-600: #0693c6;
+  --color-deep-space-blue-700: #056e94;
+  --color-deep-space-blue-800: #034963;
+  --color-deep-space-blue-900: #022531;
+  --color-deep-space-blue-950: #011a23;
+
+  /* Turquoise Surf */
+  --color-turquoise-surf-50: #ebf7fa;
+  --color-turquoise-surf-100: #d6eff5;
+  --color-turquoise-surf-200: #aedeea;
+  --color-turquoise-surf-300: #85cee0;
+  --color-turquoise-surf-400: #5dbdd5;
+  --color-turquoise-surf-500: #34adcb;
+  --color-turquoise-surf-600: #2a8aa2;
+  --color-turquoise-surf-700: #1f687a;
+  --color-turquoise-surf-800: #154551;
+  --color-turquoise-surf-900: #0a2329;
+  --color-turquoise-surf-950: #07181c;
+}
