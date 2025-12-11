@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChapterDTO {
+public class ChapterDetailDTO {
     private Long id;
 
     @NotNull
@@ -22,6 +22,8 @@ public class ChapterDTO {
 
     @NotNull
     private Integer chapterNumber;
+
+    private String content;
 
     private LocalDate updatedAt;
 }

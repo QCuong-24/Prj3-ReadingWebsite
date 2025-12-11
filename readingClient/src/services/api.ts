@@ -5,8 +5,10 @@ const api = axios.create({
 });
 
 // Novel APIs
-export const getNovels = (page = 0, size = 20) =>
-  api.get(`/novels?page=${page}&size=${size}`);
+export const getNovels = () => api.get("/novels");
+
+export const getNovelsByPage = (page: number, size: number) =>
+  api.get(`/novels/page?page=${page}&size=${size}`);
 
 export const getNovelById = (id: number) =>
   api.get(`/novels/${id}`);

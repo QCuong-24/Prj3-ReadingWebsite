@@ -2,6 +2,7 @@ package com.example.readingServer.controller;
 
 import com.example.readingServer.service.dto.ChapterDTO;
 import com.example.readingServer.service.ChapterService;
+import com.example.readingServer.service.dto.ChapterDetailDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,26 +30,25 @@ public class ChapterController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ChapterDTO> getOne(@PathVariable Long id) {
+    public ResponseEntity<ChapterDetailDTO> getOne(@PathVariable Long id) {
         return ResponseEntity.ok(chapterService.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<ChapterDTO> create(
-            @RequestParam Long novelId,
-            @RequestBody ChapterDTO chapterDTO
+    public ResponseEntity<ChapterDetailDTO> create(
+            @RequestBody ChapterDetailDTO chapterDTO
     ) {
-        ChapterDTO created = chapterService.create(novelId, chapterDTO);
+        ChapterDetailDTO created = chapterService.create(chapterDTO);
         return ResponseEntity.created(URI.create("/api/chapters/" + created.getId()))
                 .body(created);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ChapterDTO> update(
-            @PathVariable Long chapterId,
-            @RequestBody ChapterDTO chapterDTO
+    public ResponseEntity<ChapterDetailDTO> update(
+            @PathVariable Long id,
+            @RequestBody ChapterDetailDTO chapterDetailDTO
     ) {
-        ChapterDTO updated = chapterService.update(chapterId, chapterDTO);
+        ChapterDetailDTO updated = chapterService.update(id, chapterDetailDTO);
         return ResponseEntity.ok(updated);
     }
 

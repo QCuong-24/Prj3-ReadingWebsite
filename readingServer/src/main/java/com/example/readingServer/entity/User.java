@@ -27,7 +27,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private String avatar_url;
+    private String avatarUrl;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)

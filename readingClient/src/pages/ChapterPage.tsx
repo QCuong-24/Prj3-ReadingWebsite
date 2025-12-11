@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { ChapterDTO } from "../types/novel.types";
+import { ChapterDetailDTO, ChapterDTO } from "../types/novel.types";
 import { getChapterById, getChaptersByNovel } from "../services/api";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { ErrorMessage } from "../components/ErrorMessage";
@@ -14,7 +14,7 @@ export const ChapterPage = () => {
   const novelIdNum = Number(novelId);
   const chapterIdNum = Number(chapterId);
 
-  const [chapter, setChapter] = useState<ChapterDTO | null>(null);
+  const [chapter, setChapter] = useState<ChapterDetailDTO | null>(null);
   const [allChapters, setAllChapters] = useState<ChapterDTO[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<ErrorState | null>(null);
@@ -25,7 +25,7 @@ export const ChapterPage = () => {
 
     try {
       const [chapterRes, chaptersRes] = await Promise.all([
-        getChapterById(novelIdNum),
+        getChapterById(chapterIdNum),
         getChaptersByNovel(novelIdNum),
       ]);
 
@@ -73,6 +73,10 @@ export const ChapterPage = () => {
         <h1 className="text-3xl font-bold text-deep-space-blue-800 mb-2">
           Chapter {chapter.chapterNumber}: {chapter.title}
         </h1>
+
+        <p className="text-sm text-gray-500">
+          Updated at: {chapter.updatedAt}
+        </p>
 
         <Link
           to={`/novel/${novelIdNum}`}

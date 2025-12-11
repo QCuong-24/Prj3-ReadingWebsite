@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { NovelDTO } from "../types/novel.types";
-import { getNovels } from "../services/api";
 import { handleApiError, ErrorState } from "../utils/handleApiError";
 import { LoadingSpinner } from "../components/LoadingSpinner";
 import { ErrorMessage } from "../components/ErrorMessage";
@@ -8,6 +7,7 @@ import { NovelCard } from "../components/NovelCard";
 import { Pagination } from "../components/Pagination";
 import { mockNovels } from "../mock/novels.mock";
 import { useMockFallback } from "../utils/useMockFallback";
+import { getNovelsByPage } from "../services/api";
 
 export const HomePage = () => {
   const [novels, setNovels] = useState<NovelDTO[]>([]);
@@ -17,14 +17,17 @@ export const HomePage = () => {
   const [error, setError] = useState<ErrorState | null>(null);
   const [search, setSearch] = useState("");
 
-  const fetchNovels = async (pageNumber: number) => {
+  const fetchNovels = async (page: number) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await getNovels(pageNumber, 20);
-      const data = response.data;
+      const response = await getNovelsByPage(page, 20);
+      setNovels(response.data.content);
+      setTotalPages(response.data.totalPages);
 
+      // If database has no data, use mock data
+      const data = response.data;
       const novelsData = data.content ?? data;
       setNovels(useMockFallback(novelsData, mockNovels));
       setTotalPages(data.totalPages ?? 1);

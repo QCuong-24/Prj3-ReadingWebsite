@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +34,12 @@ public class AuthService {
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
         String token = jwtService.generateToken(userDetails);
 
-        return new AuthResponse(token);
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("User not found with email: " + request.getEmail()));
+        UserDTO dto = mapToDTO(user);
+
+        return new AuthResponse(dto, token, "Login response");
     }
 
     public AuthResponse register(RegisterRequest request) {
@@ -53,7 +59,7 @@ public class AuthService {
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .avatar_url(null)
+                .avatarUrl(null)
                 .roles(Set.of(role))
                 .build();
 
@@ -69,6 +75,19 @@ public class AuthService {
                         .build();
 
         String token = jwtService.generateToken(userDetails);
-        return new AuthResponse(token);
+        UserDTO dto = mapToDTO(user);
+
+        return new AuthResponse(dto, token, "Register response");
+    }
+
+    //Mapper DTO
+    private UserDTO mapToDTO(User user) {
+        return new UserDTO(
+                user.getUserId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getAvatarUrl(),
+                user.getRoles()
+        );
     }
 }

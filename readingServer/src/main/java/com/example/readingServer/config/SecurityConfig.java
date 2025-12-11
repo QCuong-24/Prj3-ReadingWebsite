@@ -32,9 +32,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/public/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/novels/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/chapters/**").permitAll()
-                        // example: admin endpoints
+                        .requestMatchers("/api/novels/**").permitAll()
+                        .requestMatchers("/api/chapters/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )

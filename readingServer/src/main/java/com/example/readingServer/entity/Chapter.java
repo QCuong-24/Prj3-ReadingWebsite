@@ -19,10 +19,19 @@ public class Chapter {
 
     private String title;
 
+    private LocalDate updatedAt;
+
     private Integer chapterNumber;
 
-    @Column(columnDefinition = "TEXT")
-    private String content;
+    @OneToOne(mappedBy = "chapter", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    private ChapterContent content;
 
-    private LocalDate updatedAt;
+    public void setContent(ChapterContent content) {
+        this.content = content;
+        content.setChapter(this);
+    }
+
+    public void setContent(String content) {
+        this.content.setContent(content);
+    }
 }

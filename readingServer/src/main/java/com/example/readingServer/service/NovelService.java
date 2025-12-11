@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -27,7 +29,8 @@ public class NovelService {
                 novel.getTitle(),
                 novel.getDescription(),
                 novel.getAuthor(),
-                novel.getStatus().name()
+                novel.getStatus().name(),
+                novel.getPublicationDate()
         );
     }
 
@@ -41,6 +44,8 @@ public class NovelService {
         if (dto.getStatus() != null) {
             novel.setStatus(Novel.Status.valueOf(dto.getStatus()));
         }
+
+        novel.setPublicationDate(dto.getPublicationDate());
 
         return novel;
     }
@@ -79,10 +84,10 @@ public class NovelService {
         novel.setTitle(dto.getTitle());
         novel.setAuthor(dto.getAuthor());
         novel.setDescription(dto.getDescription());
-
         if (dto.getStatus() != null) {
             novel.setStatus(Novel.Status.valueOf(dto.getStatus()));
         }
+        //novel.setPublicationDate(dto.getPublicationDate());
 
         Novel updated = novelRepository.save(novel);
         return mapToDTO(updated);
