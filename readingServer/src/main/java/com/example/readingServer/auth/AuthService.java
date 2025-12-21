@@ -50,9 +50,9 @@ public class AuthService {
 
         Role role = switch (request.getRole() == null ? "USER" :
                 request.getRole().toUpperCase()) {
-            case "MANAGER" -> Role.ROLE_MANAGER;
-            case "ADMIN" -> Role.ROLE_ADMIN;
-            default -> Role.ROLE_USER;
+            case "MANAGER" -> Role.MANAGER;
+            case "ADMIN" -> Role.ADMIN;
+            default -> Role.USER;
         };
 
         User user = User.builder()

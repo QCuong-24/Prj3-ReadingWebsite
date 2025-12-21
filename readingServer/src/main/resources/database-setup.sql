@@ -8,7 +8,7 @@ VALUES
  'A sci-fi journey following a pilot who discovers a hidden civilization beyond a cosmic barrier.',
  'Minh Nguyen', 'Finished', 1);
 
- INSERT INTO chapter (novel_id, title, chapter_number, content, updated_at)
+INSERT INTO chapter (novel_id, title, chapter_number, content, updated_at)
 VALUES
 (1, 'Into the Woods', 1,
  'The villagers warned her never to cross the old wooden bridge, but curiosity won.',

@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("user", JSON.stringify(finalUser));
     localStorage.setItem("token", token);
 
-    console.log("User logged in:", finalUser);
+    //console.log("User logged in:", finalUser);
   };
 
   const logoutUser = () => {

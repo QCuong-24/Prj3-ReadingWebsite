@@ -28,4 +28,7 @@ export interface NovelDTO {
   status: string; // "Ongoing" | "Finished"
   publicationDate?: string;
   postUserId?: number;
+  coverImageUrl?: string;
+  views: number;
+  followers: number;
 }

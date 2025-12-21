@@ -1,4 +1,5 @@
-import { NovelDTO, ChapterDTO } from "../types/novel.types";
+import { NovelDTO, ChapterDetailDTO } from "../types/novel.types";
+import coverImage from "./cover_images.png";
 
 export const mockNovels: NovelDTO[] = [
   {
@@ -6,25 +7,34 @@ export const mockNovels: NovelDTO[] = [
     title: "The Ocean’s Whisper",
     author: "Luna Mare",
     description: "A mysterious tale about a girl who can hear the ocean speak.",
-    status: "Ongoing"
+    status: "Ongoing",
+    coverImageUrl: coverImage,
+    views: 1250,
+    followers: 89
   },
   {
     id: 2,
     title: "Stars Beyond Time",
     author: "Astra Nova",
     description: "A sci‑fi journey across galaxies and alternate timelines.",
-    status: "Finished"
+    status: "Finished",
+    coverImageUrl: coverImage,
+    views: 2100,
+    followers: 156
   },
   {
     id: 3,
     title: "Shadow of the Forgotten",
     author: "Evan Nightfall",
     description: "A dark fantasy about a cursed kingdom and a forgotten prince.",
-    status: "Ongoing"
+    status: "Ongoing",
+    coverImageUrl: coverImage,
+    views: 890,
+    followers: 67
   }
 ];
 
-export const mockChapters: ChapterDTO[] = [
+export const mockChapters: ChapterDetailDTO[] = [
   {
     id: 101,
     novelId: 1,

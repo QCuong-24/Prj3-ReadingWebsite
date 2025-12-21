@@ -13,6 +13,9 @@ export const getNovelsByPage = (page: number, size: number) =>
 export const getNovelById = (id: number) =>
   api.get(`/novels/${id}`);
 
+export const viewNovelById = (id: number) =>
+  api.post(`/novels/${id}/view`);
+
 export const getChaptersByNovel = (novelId: number) =>
   api.get(`/chapters`, { params: { novelId } });
 

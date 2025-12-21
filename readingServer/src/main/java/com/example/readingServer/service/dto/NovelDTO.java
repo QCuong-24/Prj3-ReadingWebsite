@@ -26,4 +26,10 @@ public class NovelDTO {
     private String status;
 
     private LocalDate publicationDate;
+
+    private String coverImageUrl;
+
+    private Long views;
+
+    private Long followers;
 }

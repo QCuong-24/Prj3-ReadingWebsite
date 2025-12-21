@@ -2,11 +2,14 @@ package com.example.readingServer.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
 
-@Entity
+@Entity @Builder @DynamicInsert
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Novel {
 
@@ -47,4 +50,15 @@ public class Novel {
         Ongoing,
         Finished,
     }
+
+    @Builder.Default
+    @Column(nullable = false)
+    private Long views = 0L;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private Long followers = 0L;
+
+    @OneToMany(mappedBy = "novel", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<NovelFollow> novelFollows = new HashSet<>();
 }

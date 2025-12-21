@@ -8,7 +8,7 @@ export const ManagerRoute = ({ children }: { children: JSX.Element }) => {
   if (!user) return <Navigate to="/login" replace />;
 
   const isManager =
-    user.roles.includes("ROLE_MANAGER") || user.roles.includes("ROLE_ADMIN");
+    user.roles.includes("MANAGER") || user.roles.includes("ADMIN");
 
   if (!isManager) return <Navigate to="/" replace />;
 
