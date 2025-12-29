@@ -20,6 +20,11 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(request));
     }
 
+    @PostMapping("/request-otp")
+    public ResponseEntity<String> requestOtp(@RequestBody OtpRequest request) {
+        return ResponseEntity.ok(authService.requestRegisterOtp(request.getEmail()));
+    }
+
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(
             @Valid @RequestBody RegisterRequest request) {

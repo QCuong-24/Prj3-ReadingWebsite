@@ -1,9 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useState, useEffect, useRef } from "react";
-import { Home, Plus, LogIn, UserPlus, User, BookOpen, LogOut, Bell } from "lucide-react";
-import { getNotifications, markNotificationAsRead } from "../services/user.api";
+import { Home, Plus, LogIn, UserPlus, User, BookOpen, LogOut, Bell, Shield, Trash2 } from "lucide-react";
+import { getNotifications, markNotificationAsRead, deleteNotification } from "../services/user.api";
 import { Notification } from "../types/user.types";
+import { EventSourcePolyfill } from 'event-source-polyfill';
 
 export const Header = () => {
   const { user, logoutUser } = useAuth();
@@ -19,8 +20,9 @@ export const Header = () => {
   const notificationRef = useRef<HTMLDivElement>(null);
   const eventSourceRef = useRef<EventSource | null>(null);
 
-  const isManager =
-    user?.roles.includes("MANAGER") || user?.roles.includes("ADMIN");
+  const isManager = user?.roles.includes("MANAGER") ;
+
+  const isAdmin = user?.roles.includes("ADMIN");
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -45,21 +47,26 @@ export const Header = () => {
         .catch((err) => console.error("Failed to fetch notifications:", err));
 
       // Set up Server-Sent Events for real-time notifications
-      const eventSource = new EventSource(`http://localhost:8080/api/notifications/stream/${user.userId}`);
+      const token = localStorage.getItem("token");
+      const eventSource = new EventSourcePolyfill(`http://localhost:8080/api/notifications/stream/${user.userId}`,{
+        headers: {
+          'Authorization': token ? `Bearer ${token}` : ''
+        }
+      });
       
-      eventSource.addEventListener("notification", (event) => {
+      eventSource.addEventListener("notification", (event: any) => {
         const notification = JSON.parse(event.data);
         setNotifications((prev) => [notification, ...prev]);
-      });
+      }) as unknown as EventSource;
 
-      eventSource.addEventListener("read", (event) => {
+      eventSource.addEventListener("read", (event: any) => {
         const notification = JSON.parse(event.data);
         setNotifications((prev) =>
           prev.map((n) => (n.id === notification.id ? { ...n, isRead: true } : n))
         );
       });
 
-      eventSource.onerror = (error) => {
+      eventSource.onerror = (error: any) => {
         console.error("EventSource error:", error);
       };
 
@@ -89,6 +96,20 @@ export const Header = () => {
       );
     } catch (err) {
       console.error("Failed to mark notification as read:", err);
+    }
+  };
+
+  const handleDeleteNotification = async (notificationId: number) => {
+    if (!user) return;
+
+    try {
+      // 1. Call the API
+      await deleteNotification(user.userId, notificationId);
+
+      // 2. Update local state immediately for a responsive UI
+      setNotifications((prev) => prev.filter((n) => n.id !== notificationId));
+    } catch (err) {
+      console.error("Failed to delete notification:", err);
     }
   };
 
@@ -178,6 +199,15 @@ export const Header = () => {
                                 {new Date(n.createdAt).toLocaleDateString()}
                               </p>
                             </div>
+                            
+                            {/* Nút xóa thông báo */}
+                            <button
+                              onClick={() => handleDeleteNotification(n.id)}
+                              className="text-red-500 hover:text-red-700"
+                            >
+                              <Trash2 size={16} />
+                            </button>
+
                           </div>
                         </div>
                       ))
@@ -249,6 +279,16 @@ export const Header = () => {
                   >
                     <User size={16} /> Profile
                   </Link>
+
+                  {isAdmin && (
+                    <Link
+                      to="/admin"
+                      className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100"// text-ocean-blue-600 font-medium"
+                      onClick={() => setOpen(false)}
+                    >
+                      <Shield size={16} /> Edit authority
+                    </Link>
+                  )}
 
                   {isManager && (
                     <Link

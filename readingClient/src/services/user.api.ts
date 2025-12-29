@@ -71,7 +71,7 @@ export const getBookmarks = (userId: number) =>
 // Api for notifications
 //=================
 // Get all notifications
-export const getNotifications = (userId: number) => 
+export const getNotifications = (userId: number) =>
     api.get(`/notifications/${userId}`);
 
 // Get unread notifications
@@ -86,5 +86,38 @@ export const getReadNotifications = (userId: number) =>
 export const markNotificationAsRead = async (userId: number, notificationId: number) => {
   return await api.put(`/notifications/${userId}/${notificationId}/read`);
 };
+
+//Delete a notification
+export const deleteNotification = (userId: number, id: number) =>
+  api.delete(`/notifications/${userId}/${id}`);
+
+// Delete all user's notifications
+export const deleteAllNotifications = (userId: number) =>
+  api.delete(`/notifications/${userId}`);
+
+//=================
+// Api for comments
+//=================
+import { CommentDTO } from "../types/novel.types";
+
+// Create comment
+export const createComment = (dto: CommentDTO) =>
+  api.post<CommentDTO>("/comments", dto);
+
+// Get all comments for a chapter (paginated)
+export const getCommentsByChapter = (chapterId: number, page: number = 0, size: number = 10) =>
+  api.get(`/comments/chapter/${chapterId}?page=${page}&size=${size}`);
+
+// Get all comments for a novel (paginated)
+export const getCommentsByNovel = (novelId: number, page: number = 0, size: number = 10) =>
+  api.get(`/comments/novel/${novelId}?page=${page}&size=${size}`);
+
+// Get replies for a comment
+export const getReplies = (commentId: number) =>
+  api.get<CommentDTO[]>(`/comments/reply/${commentId}`);
+
+// Delete comment
+export const deleteComment = (id: number) =>
+  api.delete(`/comments/${id}`);
 
 export default api;

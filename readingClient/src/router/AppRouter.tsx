@@ -13,6 +13,8 @@ import { NovelAddPage } from "../pages/NovelAddPage";
 import { NovelEditPage } from "../pages/NovelEditPage";
 import { ProfilePage } from "../pages/ProfilePage";
 import { ShelfPage } from "../pages/ShelfPage";
+import { AdminRoute } from "./AdminRouter";
+import { AdminPage } from "../pages/AdminPage";
 
 export const AppRouter = () => {
   return (
@@ -84,6 +86,15 @@ export const AppRouter = () => {
             <ProtectedRoute>
               <ShelfPage />
             </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminPage />
+            </AdminRoute>
           }
         />
       </Route>

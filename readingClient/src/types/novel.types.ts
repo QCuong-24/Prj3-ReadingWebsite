@@ -32,3 +32,16 @@ export interface NovelDTO {
   views: number;
   followers: number;
 }
+
+export interface CommentDTO {
+  id: number;
+  userId: number;
+  userName: string;
+  avatarUrl?: string;
+  novelId: number;
+  chapterId?: number;
+  chapterNumber?: number;
+  replyToId?: number;
+  content: string;
+  createdAt: string; // ISO string
+}

@@ -17,7 +17,7 @@ public class NotificationController {
 
     private final NotificationService notificationService;
 
-    // SSE subscription - SseEmitter is returned directly (don't wrap in ResponseEntity)
+    // SSE subscription - SseEmitter is returned directly
     @GetMapping("/stream/{userId}")
     public SseEmitter streamNotifications(@PathVariable Long userId) {
         return notificationService.subscribe(userId);

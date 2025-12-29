@@ -11,6 +11,7 @@ import { Button } from "../components/Button";
 import { useNavigate } from 'react-router-dom';
 import { deleteChapter, deleteNovel } from "../services/manager.api";
 import { followNovel, unfollowNovel, isFollowed } from "../services/user.api";
+import { NovelCommentSection } from "../components/NovelCommentSection";
 
 export const NovelPage = () => {
   const { id } = useParams();
@@ -402,6 +403,9 @@ export const NovelPage = () => {
 
         </div>
       )}
+
+      {/* Novel Comments */}
+      <NovelCommentSection novelId={novelId} />
     </div>
   );
 };

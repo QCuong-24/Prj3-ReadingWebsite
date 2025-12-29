@@ -8,6 +8,7 @@ import { handleApiError, ErrorState } from "../utils/handleApiError";
 import { Breadcrumb } from "../components/Breadcrumb";
 import { useAuth } from "../context/AuthContext";
 import { logReading, addBookmark, removeBookmark, isBookmarked } from "../services/user.api";
+import { ChapterCommentSection } from "../components/ChapterCommentSection";
 
 export const ChapterPage = () => {
   const { novelId, chapterId } = useParams();
@@ -168,7 +169,7 @@ export const ChapterPage = () => {
         </Link>
       </div>
 
-      {/* ✅ Top Compact Navigation */}
+      {/* Top Compact Navigation */}
       <div className="flex items-center justify-center gap-4">
 
         {/* < Previous */}
@@ -219,10 +220,13 @@ export const ChapterPage = () => {
         </button>
       </div>
 
-      {/* ✅ Chapter Content */}
+      {/* Chapter Content */}
       <div className="leading-relaxed text-gray-800 text-lg whitespace-pre-line">
         {chapter.content ?? "Chapter content goes here..."}
       </div>
+
+      {/* Comments */}
+      <ChapterCommentSection chapterId={chapterIdNum} novelId={novelIdNum}/>
 
     </div>
 

@@ -5,6 +5,7 @@ import com.example.readingServer.entity.Role;
 import com.example.readingServer.entity.User;
 import com.example.readingServer.repository.UserRepository;
 import com.example.readingServer.security.jwt.JwtService;
+import com.example.readingServer.service.OtpService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
@@ -23,6 +24,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final OtpService otpService;
 
     public AuthResponse login(LoginRequest request) {
 
@@ -42,7 +44,21 @@ public class AuthService {
         return new AuthResponse(dto, token, "Login response");
     }
 
+    //Request OTP
+    public String requestRegisterOtp(String email) {
+        if (userRepository.existsByEmail(email)) {
+            throw new RuntimeException("Email already registered");
+        }
+        otpService.generateOtp(email);
+        return "OTP đã được gửi tới " + email;
+    }
+
     public AuthResponse register(RegisterRequest request) {
+
+        boolean valid = otpService.validateOtp(request.getEmail(), request.getOtpCode());
+        if (!valid) {
+            throw new RuntimeException("OTP không hợp lệ");
+        }
 
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already registered");
