@@ -8,21 +8,26 @@ import com.example.readingServer.exception.ResourceNotFoundException;
 import com.example.readingServer.repository.ChapterRepository;
 import com.example.readingServer.repository.NovelRepository;
 import com.example.readingServer.service.dto.ChapterDetailDTO;
+import com.example.readingServer.service.mapper.SearchMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ChapterService {
 
     private final ChapterRepository chapterRepository;
     private final NovelRepository novelRepository;
 
-    public ChapterService(ChapterRepository chapterRepository, NovelRepository novelRepository) {
-        this.chapterRepository = chapterRepository;
-        this.novelRepository = novelRepository;
-    }
+    private final ElasticService elasticService;
+    private final SearchMapper searchMapper;
+
+    @Value("${app.elasticsearch.enabled:false}")
+    private boolean isElasticEnabled;
 
     // DTO MAPPERS
 
@@ -100,6 +105,14 @@ public class ChapterService {
         chapter.setUpdatedAt(LocalDate.now());
 
         Chapter saved = chapterRepository.save(chapter);
+        if (isElasticEnabled) {
+            try {
+                // Cần đảm bảo Chapter có đầy đủ Novel info để map
+                elasticService.indexChapter(searchMapper.toChapterDocument(saved));
+            } catch (Exception e) {
+                System.err.println("Elasticsearch Chapter Sync Error: " + e.getMessage());
+            }
+        }
         return mapToDetailDTO(saved);
     }
 
@@ -122,6 +135,14 @@ public class ChapterService {
         }*/
 
         Chapter updated = chapterRepository.save(chapter);
+        if (isElasticEnabled) {
+            try {
+                // Cần đảm bảo Chapter có đầy đủ Novel info để map
+                elasticService.indexChapter(searchMapper.toChapterDocument(updated));
+            } catch (Exception e) {
+                System.err.println("Elasticsearch Chapter Sync Error: " + e.getMessage());
+            }
+        }
         return mapToDetailDTO(updated);
     }
 
@@ -129,5 +150,12 @@ public class ChapterService {
         Chapter chapter = chapterRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Chapter", "id", id));
         chapterRepository.delete(chapter);
+        if (isElasticEnabled) {
+            try {
+                elasticService.deleteChapter(id);
+            } catch (Exception e) {
+                System.err.println("Elasticsearch Chapter Delete Error: " + e.getMessage());
+            }
+        }
     }
 }

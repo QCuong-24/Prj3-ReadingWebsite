@@ -8,31 +8,31 @@ import com.example.readingServer.service.dto.NovelDTO;
 import com.example.readingServer.exception.ResourceNotFoundException;
 import com.example.readingServer.entity.Novel;
 import com.example.readingServer.repository.NovelRepository;
+import com.example.readingServer.service.mapper.SearchMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class NovelService {
 
     private final NovelRepository novelRepository;
     private final NovelFollowRepository novelFollowRepository;
     private final UserRepository userRepository;
 
-    public NovelService(
-            NovelRepository novelRepository,
-            NovelFollowRepository novelFollowRepository,
-            UserRepository userRepository) {
-        this.novelRepository = novelRepository;
-        this.novelFollowRepository = novelFollowRepository;
-        this.userRepository = userRepository;
-    }
+    private final ElasticService elasticService;
+    private final SearchMapper searchMapper;
+
+    @Value("${app.elasticsearch.enabled:false}")
+    private boolean isElasticEnabled;
 
     // Mapping Methods
 
@@ -96,6 +96,14 @@ public class NovelService {
     public NovelDTO create(NovelDTO dto) {
         Novel novel = mapToEntity(dto);
         Novel saved = novelRepository.save(novel);
+        if (isElasticEnabled) {
+            try {
+                elasticService.indexNovel(searchMapper.toNovelDocument(saved));
+            } catch (Exception e) {
+                // Log lỗi nhưng không làm rollback transaction chính của DB (tùy bạn quyết định)
+                System.err.println("Elasticsearch Sync Error: " + e.getMessage());
+            }
+        }
         return mapToDTO(saved);
     }
 
@@ -112,6 +120,13 @@ public class NovelService {
         //novel.setPublicationDate(dto.getPublicationDate());
 
         Novel updated = novelRepository.save(novel);
+        if (isElasticEnabled) {
+            try {
+                elasticService.indexNovel(searchMapper.toNovelDocument(updated));
+            } catch (Exception e) {
+                System.err.println("Elasticsearch Update Error: " + e.getMessage());
+            }
+        }
         return mapToDTO(updated);
     }
 
@@ -119,6 +134,14 @@ public class NovelService {
         Novel novel = novelRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Novel", "id", id));
         novelRepository.delete(novel);
+
+        if (isElasticEnabled) {
+            try {
+                elasticService.deleteNovel(id);
+            } catch (Exception e) {
+                System.err.println("Elasticsearch Delete Error: " + e.getMessage());
+            }
+        }
     }
 
     // View

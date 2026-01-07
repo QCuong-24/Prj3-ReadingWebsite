@@ -43,6 +43,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/novels/**").permitAll()
                         .requestMatchers("/api/chapters/**").permitAll()
                         .requestMatchers("/api/comments/**").permitAll()
+                        .requestMatchers("/api/search/**").permitAll()
+                        .requestMatchers("/api/elastic/**").permitAll()
                         .requestMatchers("/api/notifications/**").authenticated()
                         .requestMatchers("/api/bookmarks/**").authenticated()
                         .requestMatchers("/api/history/**").authenticated()
@@ -57,8 +59,9 @@ public class SecurityConfig {
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder());
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(); // Dùng constructor trống
+        authProvider.setUserDetailsService(userDetailsService); // Thiết lập UserDetailsService
+        authProvider.setPasswordEncoder(passwordEncoder()); // Thiết lập PasswordEncoder
         return authProvider;
     }
 
