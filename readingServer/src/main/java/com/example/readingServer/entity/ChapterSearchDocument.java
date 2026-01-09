@@ -21,6 +21,9 @@ public class ChapterSearchDocument {
     @Field(type = FieldType.Text)
     private String chapterTitle;
 
+    @Field(type = FieldType.Integer)
+    private Integer chapterNumber;
+
     @Field(type = FieldType.Text)
     private String content;
 

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import java.util.List;
 
 @Repository
 public interface NovelRepository extends JpaRepository<Novel, Long> {
@@ -20,4 +21,6 @@ public interface NovelRepository extends JpaRepository<Novel, Long> {
     @Modifying
     @Query("UPDATE Novel n SET n.followers = n.followers - 1 WHERE n.id = :id AND n.followers > 0")
     void decreaseFollowers(@Param("id") Long id);
+
+    List<Novel> findTop10ByOrderByViewsDesc();
 }

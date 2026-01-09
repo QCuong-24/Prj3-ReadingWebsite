@@ -8,6 +8,7 @@ import java.time.LocalDate;
 public class ReadingHistoryDTO {
     private Long chapterId;
     private Long novelId;
+    private String novelTitle;
     private String chapterTitle;
     private Integer chapterNumber;
     private LocalDate lastReadAt;

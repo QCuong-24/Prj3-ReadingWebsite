@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  playwright-service:
+    build:
+      context: . # /playwright-service
+      dockerfile: Dockerfile
+    container_name: playwright-service
+    shm_size: '2gb' # Quan trọng để Chromium chạy ổn định
+    #volumes:
+    #  - .:/app
+    #  - ~/.m2:/root/.m2
+    ports:
+      - "8088:8088"

@@ -22,4 +22,12 @@ export const getChaptersByNovel = (novelId: number) =>
 export const getChapterById = (chapterId: number) =>
   api.get(`/chapters/${chapterId}`);
 
+// Search Novels
+export const searchNovels = (query: string, page?: number) =>
+  api.get(`/search/novels`, { params: { q: query, page } });
+
+// Search Chapters
+export const searchChapters = (query: string, page?: number) =>
+  api.get(`/search/chapters`, { params: { q: query, page } });
+
 export default api;

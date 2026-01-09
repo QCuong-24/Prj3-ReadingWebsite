@@ -43,21 +43,21 @@ public class NovelController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
+    @PreAuthorize("hasAnyAuthority('MANAGER','ADMIN')")
     public ResponseEntity<NovelDTO> create(@RequestBody NovelDTO novel) {
         NovelDTO created = novelService.create(novel);
         return ResponseEntity.created(URI.create("/api/novels/" + created.getId())).body(created);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
+    @PreAuthorize("hasAnyAuthority('MANAGER','ADMIN')")
     public ResponseEntity<NovelDTO> update(@PathVariable Long id, @RequestBody NovelDTO novel) {
         NovelDTO updated = novelService.update(id, novel);
         return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('MANAGER','ADMIN')")
+    @PreAuthorize("hasAnyAuthority('MANAGER','ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         novelService.delete(id);
         return ResponseEntity.noContent().build();

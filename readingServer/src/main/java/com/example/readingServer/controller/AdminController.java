@@ -30,6 +30,11 @@ public class AdminController {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
+    @PostMapping("/users")
+    public UserDTO createUser(@RequestBody UserDTO newUser) {
+        return adminService.createUser(newUser);
+    }
+
     @PutMapping("/users/{id}")
     public UserDTO updateUser(@PathVariable Long id, @RequestBody UserDTO updatedUser) {
         return adminService.updateUser(id, updatedUser);

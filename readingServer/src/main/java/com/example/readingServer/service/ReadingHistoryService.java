@@ -43,7 +43,7 @@ public class ReadingHistoryService {
 
         // Check if history exists
         ReadingHistory history = historyRepository
-                .findByUserIdAndChapter_ChapterId(userId, chapterId)
+                .findByUserIdAndNovel_NovelId(userId, chapter.getNovel().getNovelId())
                 .orElse(new ReadingHistory());
 
         history.setUserId(userId);
@@ -61,6 +61,7 @@ public class ReadingHistoryService {
                     ReadingHistoryDTO dto = new ReadingHistoryDTO();
                     dto.setChapterId(h.getChapter().getChapterId());
                     dto.setNovelId(h.getNovel().getNovelId());
+                    dto.setNovelTitle(h.getNovel().getTitle());
                     dto.setChapterTitle(h.getChapter().getTitle());
                     dto.setChapterNumber(h.getChapter().getChapterNumber());
                     dto.setLastReadAt(h.getLastReadAt());

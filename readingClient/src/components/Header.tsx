@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useState, useEffect, useRef } from "react";
-import { Home, Plus, LogIn, UserPlus, User, BookOpen, LogOut, Bell, Shield, Trash2 } from "lucide-react";
+import { Home, Plus, LogIn, UserPlus, User, BookOpen, LogOut, Bell, Shield, Trash2, Search, BarChart } from "lucide-react";
 import { getNotifications, markNotificationAsRead, deleteNotification } from "../services/user.api";
 import { Notification } from "../types/user.types";
 import { EventSourcePolyfill } from 'event-source-polyfill';
@@ -131,6 +131,16 @@ export const Header = () => {
           <Link to="/" className="hover:text-ocean-blue-200" title="Home">
             <Home size={20} />
           </Link>
+
+          <Link to="/search" className="hover:text-ocean-blue-200" title="Search">
+            <Search size={20} />
+          </Link>
+
+          {user && (
+            <Link to="/statistics" className="hover:text-ocean-blue-200" title="Statistics">
+              <BarChart size={20} />
+            </Link>
+          )}
 
           {user && (
             <Link to="/shelf" className="hover:text-ocean-blue-200" title="My Shelf">
@@ -286,7 +296,7 @@ export const Header = () => {
                       className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100"// text-ocean-blue-600 font-medium"
                       onClick={() => setOpen(false)}
                     >
-                      <Shield size={16} /> Edit authority
+                      <Shield size={16} /> Admin Panel
                     </Link>
                   )}
 

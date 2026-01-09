@@ -16,8 +16,8 @@ export const Footer = () => {
           <h3 className="font-semibold text-ocean-blue-200 mb-2">Quick Links</h3>
           <ul className="space-y-1 text-gray-300">
             <li><a href="/" className="hover:text-white">Home</a></li>
-            <li><a href="/profile" className="hover:text-white">Profile</a></li>
-            <li><a href="/novel/add" className="hover:text-white">Add Novel</a></li>
+            <li><a href="/search" className="hover:text-white">Search</a></li>
+            <li><a href="/statistic" className="hover:text-white">Statistics</a></li>
           </ul>
         </div>
 

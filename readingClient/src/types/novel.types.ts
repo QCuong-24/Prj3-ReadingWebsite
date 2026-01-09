@@ -45,3 +45,9 @@ export interface CommentDTO {
   content: string;
   createdAt: string; // ISO string
 }
+
+export interface StatisticDTO {
+  novelId: number;
+  title: string;
+  count: number;
+}

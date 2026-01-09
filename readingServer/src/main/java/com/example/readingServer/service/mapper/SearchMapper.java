@@ -28,6 +28,7 @@ public class SearchMapper {
         return ChapterSearchDocument.builder()
                 .chapterId(chapter.getChapterId())
                 .chapterTitle(chapter.getTitle())
+                .chapterNumber(chapter.getChapterNumber())
                 .content(chapter.getContent() != null ? chapter.getContent().getContent() : "")
                 .novelId(chapter.getNovel().getNovelId())
                 .novelTitle(chapter.getNovel().getTitle())

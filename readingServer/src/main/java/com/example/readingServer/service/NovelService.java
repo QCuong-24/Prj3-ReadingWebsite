@@ -1,8 +1,10 @@
 package com.example.readingServer.service;
 
 import com.example.readingServer.entity.NovelFollow;
+import com.example.readingServer.entity.NovelView;
 import com.example.readingServer.entity.User;
 import com.example.readingServer.repository.NovelFollowRepository;
+import com.example.readingServer.repository.NovelViewRepository;
 import com.example.readingServer.repository.UserRepository;
 import com.example.readingServer.service.dto.NovelDTO;
 import com.example.readingServer.exception.ResourceNotFoundException;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -26,6 +29,7 @@ public class NovelService {
 
     private final NovelRepository novelRepository;
     private final NovelFollowRepository novelFollowRepository;
+    private final NovelViewRepository novelViewRepository;
     private final UserRepository userRepository;
 
     private final ElasticService elasticService;
@@ -151,6 +155,15 @@ public class NovelService {
             throw new ResourceNotFoundException("Novel", "id", novelId);
         }
         novelRepository.increaseViews(novelId);
+
+        Novel novel = novelRepository.findById(novelId)
+                .orElseThrow(() -> new RuntimeException("Novel not found"));
+
+        NovelView view = new NovelView();
+        view.setNovel(novel);
+        view.setViewedAt(LocalDate.now());
+
+        novelViewRepository.save(view);
     }
 
     // Follow

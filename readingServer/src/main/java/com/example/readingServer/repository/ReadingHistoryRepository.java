@@ -17,6 +17,8 @@ public interface ReadingHistoryRepository extends JpaRepository<ReadingHistory, 
 
     Optional<ReadingHistory> findByUserIdAndChapter_ChapterId(Long userId, Long chapterId);
 
+    Optional<ReadingHistory> findByUserIdAndNovel_NovelId(Long userId, Long novelId);
+
     @Transactional
     void deleteByUserId(Long userId);
 

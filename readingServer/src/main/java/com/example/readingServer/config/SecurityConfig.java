@@ -43,6 +43,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/novels/**").permitAll()
                         .requestMatchers("/api/chapters/**").permitAll()
                         .requestMatchers("/api/comments/**").permitAll()
+                        .requestMatchers("/api/statistics/**").permitAll()
                         .requestMatchers("/api/search/**").permitAll()
                         .requestMatchers("/api/elastic/**").permitAll()
                         .requestMatchers("/api/notifications/**").authenticated()

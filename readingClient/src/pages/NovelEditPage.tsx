@@ -65,6 +65,8 @@ export const NovelEditPage = () => {
         description,
         status,
         publicationDate,
+        views: novel?.views || 0,
+        followers: novel?.followers || 0
       });
 
       navigate(`/novel/${novelId}`);

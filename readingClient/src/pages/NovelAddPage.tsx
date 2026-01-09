@@ -22,8 +22,10 @@ export const NovelAddPage = () => {
         author,
         description,
         status,
-        publicationDate
+        publicationDate,
         //postUserId: user?.userIdd
+        views: 0,
+        followers: 0
       });
 
       navigate("/");

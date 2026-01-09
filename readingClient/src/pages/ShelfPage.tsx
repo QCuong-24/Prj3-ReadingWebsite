@@ -170,7 +170,19 @@ export const ShelfPage = () => {
               {history.map((item) => (
                 <div key={item.chapterId} className="flex justify-between items-center p-4 border rounded">
                   <div>
-                    <h3 className="font-semibold">{item.chapterTitle}</h3>
+                    {/* Novel Title Displayed Here */}
+                    <h4 
+                      className="text-xs font-bold text-blue-600 uppercase tracking-wide cursor-pointer hover:underline inline-block mb-1"
+                      onClick={() => navigate(`/novel/${item.novelId}`)}
+                    >
+                      {item.novelTitle}
+                    </h4>
+                    <h3 
+                      className="font-semibold text-lg cursor-pointer hover:text-blue-700 transition-colors"
+                      onClick={() => navigate(`/novel/${item.novelId}/chapter/${item.chapterId}`)}
+                    >
+                      {item.chapterTitle}
+                    </h3>
                     <p className="text-sm text-gray-600">Chapter {item.chapterNumber}</p>
                     <p className="text-sm text-gray-500">Last read: {new Date(item.lastReadAt).toLocaleDateString()}</p>
                   </div>

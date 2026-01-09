@@ -15,12 +15,16 @@ import { ProfilePage } from "../pages/ProfilePage";
 import { ShelfPage } from "../pages/ShelfPage";
 import { AdminRoute } from "./AdminRouter";
 import { AdminPage } from "../pages/AdminPage";
+import { SearchPage } from "../pages/SearchPage";
+import { StatisticsPage } from "../pages/StatisticsPage";
 
 export const AppRouter = () => {
   return (
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="/statistics" element={<StatisticsPage />} />
         <Route path="/novel/:id" element={<NovelPage />} />
 
         <Route

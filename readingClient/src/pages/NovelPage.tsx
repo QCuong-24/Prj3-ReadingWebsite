@@ -157,9 +157,14 @@ export const NovelPage = () => {
             </p>
           )}
 
-          <span className="inline-block mt-2 px-3 py-1 text-sm rounded bg-turquoise-surf-100 text-turquoise-surf-800">
-            {novel.status}
-          </span>
+          <div className="flex items-center gap-3 mt-2">
+            <span className="px-3 py-1 text-sm rounded bg-turquoise-surf-100 text-turquoise-surf-800">
+              {novel.status}
+            </span>
+            <span className="text-sm text-gray-500 font-medium">
+              {chapters.length} Chapters
+            </span>
+          </div>
 
           {novel.description && (
             <p className="mt-4 text-gray-700 leading-relaxed">

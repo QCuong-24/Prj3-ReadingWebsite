@@ -1,15 +1,18 @@
 package com.example.readingServer.auth;
 
+import com.example.readingServer.entity.Role;
 import com.example.readingServer.entity.User;
 import com.example.readingServer.auth.dto.UserDTO;
 import com.example.readingServer.exception.ResourceNotFoundException;
 import com.example.readingServer.repository.UserRepository;
 import com.example.readingServer.service.NotificationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,6 +21,7 @@ public class AdminService {
 
     private final UserRepository userRepository;
     private final NotificationService notificationService;
+    private final PasswordEncoder passwordEncoder;
 
     private UserDTO convertToDTO(User user) {
         return new UserDTO(
@@ -39,6 +43,24 @@ public class AdminService {
     public Optional<UserDTO> getUserById(Long id) {
         return userRepository.findById(id)
                 .map(this::convertToDTO);
+    }
+
+    public UserDTO createUser(UserDTO userDTO) {
+        if (userRepository.existsByEmail(userDTO.getEmail())) {
+            throw new RuntimeException("Email đã tồn tại");
+        }
+
+        User user = User.builder()
+                .username(userDTO.getUsername())
+                .email(userDTO.getEmail())
+                .password(passwordEncoder.encode("a"))
+                .avatarUrl(null)
+                .roles(userDTO.getRoles())
+                .build();
+
+        userRepository.save(user);
+
+        return convertToDTO(user);
     }
 
     public UserDTO updateUser(Long id, UserDTO updatedUserDTO) {

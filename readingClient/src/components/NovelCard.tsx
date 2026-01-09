@@ -17,7 +17,7 @@ export const NovelCard = ({ novel }: { novel: NovelDTO }) => {
         }}
       />
       <div className="p-4">
-        <h2 className="text-xl font-semibold text-deep-space-blue-800 mb-2">
+        <h2 className="text-xl font-semibold text-deep-space-blue-800 mb-2 line-clamp-2">
           {novel.title}
         </h2>
 
