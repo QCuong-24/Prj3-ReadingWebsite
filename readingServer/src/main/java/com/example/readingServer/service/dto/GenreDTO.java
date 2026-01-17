@@ -1,4 +1,4 @@
-package com.example.readingServer.dto;
+package com.example.readingServer.service.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

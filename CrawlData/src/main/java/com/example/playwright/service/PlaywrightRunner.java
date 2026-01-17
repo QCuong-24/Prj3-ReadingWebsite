@@ -57,7 +57,7 @@ public class PlaywrightRunner {
         // 1. Sử dụng Persistent Context để lưu lại Cookie và Session
         // Thư mục 'novelbin_data' sẽ được tạo ngay trong project của bạn
         BrowserType.LaunchPersistentContextOptions launchOptions = new BrowserType.LaunchPersistentContextOptions()
-                .setHeadless(false) // Để false để bạn   có thể bấm Verify lần đầu
+                .setHeadless(false) // Để false để bạn có thể bấm Verify lần đầu
                 .setArgs(List.of(
                         "--no-sandbox",
                         "--disable-blink-features=AutomationControlled", // Ẩn cờ Automation
@@ -70,7 +70,6 @@ public class PlaywrightRunner {
         context = playwright.chromium().launchPersistentContext(userDataDir, launchOptions);
 
         // 2. Xóa bỏ dấu vết navigator.webdriver để pass bài test Sannysoft
-//        context.addInitScript("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})");
         context.addInitScript("() => {" +
                 "  Object.defineProperty(navigator, 'webdriver', { get: () => undefined });" +
                 "  window.chrome = { runtime: {} };" +
